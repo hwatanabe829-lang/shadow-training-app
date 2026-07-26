@@ -21,6 +21,12 @@ body {
   font-size: 1.5rem;
 }
 
+.app-subtitle {
+  margin-top: 4px;
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
 main {
   max-width: 800px;
   margin: 0 auto;

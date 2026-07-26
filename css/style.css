@@ -1,0 +1,395 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Hiragino Sans", "Yu Gothic", sans-serif;
+  background: #1a1a1a;
+  color: #f0f0f0;
+  margin: 0;
+  padding: 0;
+}
+
+.app-header {
+  background: linear-gradient(135deg, #c0392b, #8e1f12);
+  padding: 16px 20px;
+  text-align: center;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.selector-card {
+  background: #2a2a2a;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.selector-card label {
+  font-weight: bold;
+}
+
+.selector-card select {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #555;
+  background: #1a1a1a;
+  color: #fff;
+  font-size: 1rem;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.selector-card button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  background: #c0392b;
+  color: #fff;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  width: 100%;
+}
+
+.selector-card button:hover {
+  background: #e74c3c;
+}
+
+.menu-section {
+  margin-top: 20px;
+}
+
+.menu-section-title {
+  margin: 0;
+  font-size: 1rem;
+  color: #f1c40f;
+}
+
+.menu-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 8px;
+}
+
+.menu-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  background: #2a2a2a;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.menu-table th, .menu-table td {
+  padding: 10px 8px;
+  text-align: left;
+  border-bottom: 1px solid #3a3a3a;
+  font-size: 0.9rem;
+}
+
+.menu-table td:nth-child(2) {
+  min-width: 220px;
+}
+
+.menu-table th {
+  background: #3a3a3a;
+}
+
+.menu-table tr.active-round {
+  background: #c0392b;
+  color: #fff;
+}
+
+.hiit-table th {
+  background: #2c3e50;
+}
+
+.hiit-table tr.active-round {
+  background: #2980b9;
+}
+
+.timer-section {
+  margin-top: 24px;
+  background: #2a2a2a;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+}
+
+.start-round-picker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+  font-size: 0.9rem;
+}
+
+.start-round-picker select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #555;
+  background: #1a1a1a;
+  color: #fff;
+  font-size: 0.9rem;
+  max-width: 80%;
+}
+
+.start-round-picker select:disabled {
+  opacity: 0.5;
+}
+
+.timer-display {
+  font-size: 3rem;
+  font-weight: bold;
+  font-family: monospace;
+  margin: 10px 0;
+}
+
+.timer-display.hiit-mode {
+  color: #3498db;
+}
+
+.progress-wrap {
+  margin: 6px auto 12px;
+  max-width: 420px;
+}
+
+.progress-track {
+  height: 8px;
+  background: #1a1a1a;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #27ae60, #f1c40f);
+  border-radius: 4px;
+  transition: width 0.4s linear;
+}
+
+.progress-label {
+  margin-top: 4px;
+  font-size: 0.8rem;
+  color: #aaa;
+  min-height: 1em;
+}
+
+.timer-display.countdown-warning {
+  color: #e74c3c;
+  animation: countdown-flash 0.5s infinite;
+}
+
+@keyframes countdown-flash {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.55; transform: scale(1.08); }
+}
+
+.timer-label {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  min-height: 1.4em;
+}
+
+.timer-controls button {
+  padding: 10px 24px;
+  margin: 0 6px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#startTimerBtn {
+  background: #27ae60;
+  color: #fff;
+}
+
+#resetTimerBtn {
+  background: #555;
+  color: #fff;
+}
+
+.coach-video-card {
+  margin-top: 16px;
+  background: #2a1a1a;
+  border-left: 4px solid #ff0000;
+  border-radius: 8px;
+  padding: 14px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.coach-video-text {
+  font-size: 0.9rem;
+  color: #f0f0f0;
+}
+
+.coach-video-link {
+  background: #ff0000;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.85rem;
+  padding: 8px 14px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.coach-video-link:hover {
+  background: #cc0000;
+}
+
+.tech-library {
+  margin-top: 16px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #3a3a3a;
+}
+
+.tech-library-title {
+  background: #3a3a3a;
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #f1c40f;
+  letter-spacing: 0.05em;
+}
+
+.tech-group-btn {
+  width: 100%;
+  text-align: left;
+  background: #2a2a2a;
+  color: #f0f0f0;
+  border: none;
+  border-top: 1px solid #3a3a3a;
+  padding: 11px 14px;
+  font-size: 0.95rem;
+  font-weight: bold;
+  cursor: pointer;
+  position: relative;
+}
+
+.tech-group-btn::after {
+  content: "▶";
+  position: absolute;
+  right: 14px;
+  font-size: 0.75rem;
+  transition: transform 0.2s;
+  color: #888;
+}
+
+.tech-group-btn.open::after {
+  transform: rotate(90deg);
+}
+
+.tech-group-btn:hover {
+  background: #333;
+}
+
+.tech-group-content {
+  background: #222;
+  padding: 4px 0;
+}
+
+.tech-tip-item {
+  padding: 10px 16px;
+  border-bottom: 1px solid #2e2e2e;
+}
+
+.tech-tip-item:last-child {
+  border-bottom: none;
+}
+
+.tech-tip-cat {
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #f1c40f;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.tech-tip-text {
+  margin: 0;
+  font-size: 0.88rem;
+  color: #ccc;
+  line-height: 1.65;
+}
+
+.tip-card {
+  margin-top: 16px;
+  background: #1e2a1e;
+  border-left: 4px solid #f1c40f;
+  border-radius: 8px;
+  padding: 14px 16px;
+}
+
+.tip-header {
+  font-size: 0.78rem;
+  color: #f1c40f;
+  font-weight: bold;
+  margin-bottom: 4px;
+  letter-spacing: 0.05em;
+}
+
+.tip-category {
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 6px;
+}
+
+.tip-text {
+  font-size: 0.88rem;
+  color: #d0d0d0;
+  line-height: 1.65;
+}
+
+@media (max-width: 480px) {
+  .app-header h1 {
+    font-size: 1.1rem;
+  }
+
+  main {
+    padding: 12px;
+  }
+
+  .menu-table th, .menu-table td {
+    padding: 8px 6px;
+    font-size: 0.8rem;
+  }
+
+  .menu-table td:nth-child(2) {
+    min-width: 160px;
+  }
+
+  .timer-display {
+    font-size: 2.4rem;
+  }
+
+  .timer-controls button {
+    padding: 10px 16px;
+    font-size: 0.95rem;
+  }
+}

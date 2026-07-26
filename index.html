@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>シャドー5R + HIIT</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="app-header">
+  <h1>🥊 シャドー5R + HIIT</h1>
+</header>
+
+<main>
+  <div class="selector-card">
+    <label for="levelSelect">レベル</label>
+    <select id="levelSelect">
+      <option value="beginner1">初心者①(ストレート期)</option>
+      <option value="beginner2">初心者②(フック期)</option>
+      <option value="beginner3">初心者③(アッパー期)</option>
+      <option value="intermediate">中級者</option>
+      <option value="advanced">上級者</option>
+    </select>
+
+    <label for="styleSelect">スタイル</label>
+    <select id="styleSelect">
+      <option value="outboxer">アウトボクサー</option>
+      <option value="infighter">インファイター</option>
+      <option value="counter">カウンターパンチャー</option>
+      <option value="allround">オールラウンダー</option>
+    </select>
+
+    <button id="generateBtn">メニュー生成</button>
+  </div>
+
+  <div id="menuResult"></div>
+
+  <div class="timer-section" id="timerSection" style="display:none;">
+    <div class="start-round-picker">
+      <label for="startRoundSelect">開始位置</label>
+      <select id="startRoundSelect"></select>
+    </div>
+    <div class="timer-label" id="timerLabel">準備中</div>
+    <div class="timer-display" id="timerDisplay">--:--</div>
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+      <div class="progress-label" id="progressLabel"></div>
+    </div>
+    <div class="timer-controls">
+      <button id="startTimerBtn" disabled>開始</button>
+      <button id="resetTimerBtn">リセット</button>
+    </div>
+  </div>
+</main>
+
+<script src="js/menus.js?v=1"></script>
+<script src="js/tips.js?v=1"></script>
+<script src="js/app.js?v=1"></script>
+</body>
+</html>

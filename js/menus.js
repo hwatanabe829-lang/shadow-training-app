@@ -72,31 +72,94 @@ const SHADOW_BY_STYLE = {
   ]
 };
 
-// HIIT筋トレ:20秒トレ + 10秒休み × 8種目(タバタ形式)
-const HIIT_EXERCISES = [
-  "バーピー:全身を使って素早く。ジャンプまでしっかり",
-  "腕立て伏せ:体幹をまっすぐ保つ。膝つきでもOK",
-  "スクワット:太ももが床と平行になるまで下げる",
-  "マウンテンクライマー:腰を落とさず膝を胸へ速く引きつける",
-  "プランク:肘とつま先で体を一直線に支える",
-  "ジャンピングジャック:リズム良く大きく手足を開く",
-  "ツイストクランチ:腹斜筋を意識して左右交互にひねる",
-  "ヒップリフト:お尻を締めて持ち上げ、体を一直線に"
-];
+// 上級者は「相手の反応→選択→修正」を各ラウンドの課題にする。
+const ADVANCED_BY_STYLE = {
+  outboxer: [
+    "相手が前進:ジャブで止める。止まらなければ横へ外れて右を返す",
+    "ジャブに反応する相手:ダブルジャブとボディジャブを使い分ける",
+    "相手のカウンター:右を見せて引き、空振りを誘って角度を変え2発",
+    "ロープを背負う想定:ジャブ→ピボットで脱出し距離を取り直す",
+    "実戦3分:30秒ごとに相手の反応を変え、同じ出口を連続で使わない"
+  ],
+  infighter: [
+    "ジャブで止める相手:フェイント→頭をずらして入る。届かなければ入り直す",
+    "接近後の選択:上を守ればボディ、下を守ればショートアッパー",
+    "反撃を受ける想定:3発→ブロック→角度を変えて2発",
+    "相手が下がる:追い足で距離を詰め、打った後は横へ抜ける",
+    "実戦3分:入る・上下を変える・防御する。連打の長さも変える"
+  ],
+  counter: [
+    "ジャブを誘う:前手フェイント→パリー右。出なければ自分からジャブ",
+    "相手のワンツー:ジャブに反応し、右を外して即2発返す",
+    "相手が打たない:自分からジャブで動かし、返しにカウンター",
+    "読まれた想定:同じスリップを続けずブロック・プルバックへ変更",
+    "実戦3分:誘う→防御→反撃→角度変更。相手が慣れたら手順を変える"
+  ],
+  allround: [
+    "長距離:ジャブで反応を見て、前進する相手にはカウンター",
+    "近距離:頭をずらして入り、上下3発→ブロック→離れる",
+    "ガードを観察:上が固ければボディ、下がれば顔へ",
+    "主導権の切替:攻める30秒／受けて返す30秒を交互に",
+    "実戦3分:距離・テンポ・出口を変え、反応に応じて戦術を選ぶ"
+  ]
+};
 
-const HIIT_WORK_SEC = 20;
-const HIIT_REST_SEC = 10;
-const SHADOW_WORK_SEC = 2 * 60;
-const SHADOW_REST_SEC = 30;
+const LEVEL_SETTINGS = {
+  beginner1:    { shadow: 90,  shadowRest: 60, hiit: 15, hiitRest: 15, focus: "構えと直線パンチを正確に" },
+  beginner2:    { shadow: 120, shadowRest: 45, hiit: 20, hiitRest: 15, focus: "フックを加えた連携を習得" },
+  beginner3:    { shadow: 120, shadowRest: 40, hiit: 20, hiitRest: 10, focus: "アッパーと上下の打ち分け" },
+  intermediate: { shadow: 150, shadowRest: 30, hiit: 25, hiitRest: 10, focus: "距離・角度・防御からの打ち返し" },
+  advanced:     { shadow: 180, shadowRest: 30, hiit: 30, hiitRest: 10, focus: "相手の反応を想定して判断・修正" }
+};
+
+// 初心者に高衝撃種目を出さず、上達に合わせて負荷を上げる。
+const HIIT_BY_LEVEL = {
+  beginner1: [
+    "ガードキープ:肩をすくめず構えを保つ", "ゆっくりスクワット:無理のない深さで",
+    "ジャブ軽打:姿勢を保って一発ずつ", "カーフレイズ:かかとをゆっくり上下",
+    "立ちクランチ:膝と肘を近づける", "壁プッシュアップ:体を一直線に",
+    "左右重心移動:静かに体重を移す", "ワンツー軽打:ガードに戻って正確に"
+  ],
+  beginner2: [
+    "スクワット:一定のテンポで", "ワンツー連打:肩に力を入れ過ぎない",
+    "交互ランジ:足を静かに置く", "立ちクロスニー:肘と反対の膝を近づける",
+    "左右フック:体幹の回転で", "壁プッシュアップ:胸を壁へ近づける",
+    "カーフレイズ:上で一瞬止める", "ワンツーフック:形を崩さず反復"
+  ],
+  beginner3: [
+    "スクワット＋ワンツー:立ってから2発", "交互ランジ:上体を立てる",
+    "フック→アッパー:小さく素早く", "立ちクロスニー:左右交互に",
+    "壁プッシュアップ:体を一直線に", "カーフレイズ連続:静かに下ろす",
+    "上下の打ち分け:ボディ→顔", "ガードキープ＋ワンツー:手を下げない"
+  ],
+  intermediate: [
+    "スクワット＋ワンツー:脚とパンチをつなぐ", "スリップ→ワンツー:回避から返す",
+    "交互ランジ:姿勢を保つ", "左右フック連打:体幹を使う",
+    "プランク:体を一直線に", "サイドステップ→ジャブ:角度を変える",
+    "マウンテンクライマー:腰を落とさない", "上下3発連打:ボディと顔を切り替える"
+  ],
+  advanced: [
+    "バーピー:フォームを保ち全身を動かす", "スリップ→ワンツー速射:回避から連続で",
+    "ジャンプスクワット:膝を柔らかく着地", "マウンテンクライマー:体幹を固めて速く",
+    "プランクショルダータップ:腰を揺らさず", "連打→ピボット:攻撃後に角度変更",
+    "ジャンピングジャック:リズムを落とさない", "上下4発速射:ガードを保つ"
+  ]
+};
+
+function formatDuration(sec) {
+  const min = Math.floor(sec / 60);
+  return min ? (sec % 60 ? `${min}分${sec % 60}秒` : `${min}分`) : `${sec}秒`;
+}
 
 /**
  * レベル・スタイルからシャドー5ラウンド + HIIT 8種目のメニューを生成する
  */
 function generateMenu(level, style) {
   const isBeginner = level.startsWith("beginner");
+  const timing = LEVEL_SETTINGS[level];
   const contentSet = isBeginner
     ? SHADOW_BY_BEGINNER_LEVEL[level]
-    : SHADOW_BY_STYLE[style];
+    : (level === "advanced" ? ADVANCED_BY_STYLE[style] : SHADOW_BY_STYLE[style]);
 
   const rounds = [];
   for (let i = 0; i < 5; i++) {
@@ -105,17 +168,17 @@ function generateMenu(level, style) {
       round: i + 1,
       phaseName: "シャドーボクシング",
       content: contentSet[i % contentSet.length],
-      duration: "2分(休憩30秒)"
+      duration: `${formatDuration(timing.shadow)}(休憩${formatDuration(timing.shadowRest)})`
     });
   }
 
-  const hiit = HIIT_EXERCISES.map((content, i) => ({
+  const hiit = HIIT_BY_LEVEL[level].map((content, i) => ({
     kind: "hiit",
     round: i + 1,
     phaseName: "HIIT筋トレ",
     content: content,
-    duration: "20秒(休憩10秒)"
+    duration: `${formatDuration(timing.hiit)}(休憩${formatDuration(timing.hiitRest)})`
   }));
 
-  return { rounds, hiit };
+  return { rounds, hiit, timing };
 }

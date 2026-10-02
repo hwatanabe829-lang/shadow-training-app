@@ -200,11 +200,18 @@ function renderMenu(menu, level, style) {
   container.innerHTML = "";
 
   const heading = document.createElement("h2");
-  heading.textContent = `${LEVEL_LABELS[level]} × ${STYLE_LABELS[style]} のメニュー`;
+  heading.textContent = level.startsWith("beginner")
+    ? `${LEVEL_LABELS[level]} のメニュー`
+    : `${LEVEL_LABELS[level]} × ${STYLE_LABELS[style]} のメニュー`;
   container.appendChild(heading);
 
+  const focus = document.createElement("p");
+  focus.className = "level-focus";
+  focus.textContent = `今日の課題: ${menu.timing.focus}｜シャドー ${formatDuration(menu.timing.shadow)} / 休 ${formatDuration(menu.timing.shadowRest)}｜筋トレ ${formatDuration(menu.timing.hiit)} / 休 ${formatDuration(menu.timing.hiitRest)}`;
+  container.appendChild(focus);
+
   container.appendChild(buildSection("🥊 シャドーボクシング 5R", menu.rounds, "shadow-table"));
-  container.appendChild(buildSection("💪 HIIT筋トレ (20秒 / 休10秒 × 8種目)", menu.hiit, "hiit-table"));
+  container.appendChild(buildSection(`💪 筋トレ (${formatDuration(menu.timing.hiit)} / 休${formatDuration(menu.timing.hiitRest)} × 8種目)`, menu.hiit, "hiit-table"));
 
   // 開始位置の選択肢を再構築
   const startRoundSelect = document.getElementById("startRoundSelect");
@@ -218,7 +225,7 @@ function renderMenu(menu, level, style) {
   menu.hiit.forEach((h, i) => {
     const opt = document.createElement("option");
     opt.value = `hiit:${i}`;
-    opt.textContent = `HIIT ${h.round}種目目`;
+    opt.textContent = `筋トレ ${h.round}種目目`;
     startRoundSelect.appendChild(opt);
   });
 
@@ -296,6 +303,13 @@ function renderMenu(menu, level, style) {
   } catch (e) { /* プライベートモード等でlocalStorage不可なら黙って無視 */ }
 })();
 
+function updateStyleAvailability() {
+  document.getElementById("styleSelect").disabled =
+    document.getElementById("levelSelect").value.startsWith("beginner");
+}
+document.getElementById("levelSelect").addEventListener("change", updateStyleAvailability);
+updateStyleAvailability();
+
 document.getElementById("generateBtn").addEventListener("click", () => {
   const level = document.getElementById("levelSelect").value;
   const style = document.getElementById("styleSelect").value;
@@ -342,21 +356,22 @@ document.addEventListener("visibilitychange", () => {
 
 /**
  * メニューからタイマーのステップ列を組み立てる。
- * シャドー5R(2分/休30秒) → HIIT 8種目(20秒/休10秒)
+ * レベル別のシャドー5R → 筋トレ8種目
  */
 function buildSteps(menu) {
   const steps = [];
+  const timing = menu.timing;
 
   menu.rounds.forEach((r, i) => {
-    steps.push({ type: "shadow", item: r, duration: SHADOW_WORK_SEC });
-    // シャドー最終ラウンド後はHIIT前の休憩として同じ30秒を挟む
-    steps.push({ type: "rest", restFor: "shadow", duration: SHADOW_REST_SEC });
+    steps.push({ type: "shadow", item: r, duration: timing.shadow });
+    // 最終ラウンド後も筋トレへ移る前に休憩する
+    steps.push({ type: "rest", restFor: "shadow", duration: timing.shadowRest });
   });
 
   menu.hiit.forEach((h, i) => {
-    steps.push({ type: "hiit", item: h, duration: HIIT_WORK_SEC });
+    steps.push({ type: "hiit", item: h, duration: timing.hiit });
     if (i < menu.hiit.length - 1) {
-      steps.push({ type: "rest", restFor: "hiit", duration: HIIT_REST_SEC });
+      steps.push({ type: "rest", restFor: "hiit", duration: timing.hiitRest });
     }
   });
 
@@ -483,7 +498,7 @@ function advanceStep() {
 
     if (curStep.type === "rest") {
       if (curStep.restFor === "hiit") {
-        // HIITの10秒休憩は短いので、次種目名だけを手短に予告
+        // 短い休憩なので次種目名を手短に予告
         beep(660, 0.15);
         const next = timerSteps[stepIndex + 1];
         if (next && next.type === "hiit") {
@@ -552,10 +567,10 @@ function updateTimerDisplay() {
     document.getElementById("timerLabel").textContent = `第${step.item.round}ラウンド: シャドーボクシング`;
     document.getElementById(rowIdFor(step.item))?.classList.add("active-round");
   } else if (step.type === "hiit") {
-    document.getElementById("timerLabel").textContent = `💪 HIIT ${step.item.round}/8: ${step.item.content.split(":")[0]}`;
+    document.getElementById("timerLabel").textContent = `💪 筋トレ ${step.item.round}/8: ${step.item.content.split(":")[0]}`;
     document.getElementById(rowIdFor(step.item))?.classList.add("active-round");
   } else if (step.type === "rest") {
-    document.getElementById("timerLabel").textContent = step.restFor === "hiit" ? "休憩(10秒)" : "休憩";
+    document.getElementById("timerLabel").textContent = `休憩(${formatDuration(step.duration)})`;
   }
 }
 
